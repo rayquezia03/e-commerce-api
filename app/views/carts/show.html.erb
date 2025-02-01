@@ -24,7 +24,7 @@
                   <td><%= product.name %></td>
                   <td><%= number_to_currency(product.price) %></td>
                   <td>
-                    <%= form_with model: cart_item, url: update_item_cart_path(cart_item), method: :patch, remote: true do |form| %>
+                    <%= form_with model: cart_item, url: update_item_cart_path(cart_item.id), method: :patch, remote: true do |form| %>
                       <div class="input-group">
                         <%= form.number_field :quantity, 
                               value: cart_item.quantity, 

@@ -2,10 +2,10 @@
   <div class="row">
     <!-- Imagem do Produto -->
     <div class="col-md-6 mb-4 mb-md-0 position-relative">
-      <%= image_tag(@product.image.presence || 'https://m.media-amazon.com/images/I/51pNvD-nsvL.__AC_SX300_SY300_QL70_ML2_.jpg', class: 'img-fluid rounded shadow') %>
-      
-          <i class="fas fa-shopping-cart"></i> 
-        </a>
+      <%= image_tag(@product.image.presence || 'https://m.media-amazon.com/images/I/51pNvD-nsvL.__AC_SX300_SY300_QL70_ML2_.jpg', class: 'img-fluid rounded shadow product-image') %>
+      <a href="#" class="position-absolute top-0 end-0 p-2">
+        <i class="fas fa-shopping-cart"></i>
+      </a>
     </div>
 
     <!-- Informações do Produto -->
@@ -25,16 +25,36 @@
         <small class="form-text text-muted">Estoque disponível: <%= @product.stock_quantity %> unidades</small>
       </div>
 
-      <!-- Botão de Adicionar ao Carrinho -->
-      <a href="<%= cart_path %>" class="btn btn-primary">
-        <i class="fas fa-shopping-cart"></i> Ir para o carrinho
-      </a>
-      <button class="btn btn-lg btn-success w-100 add-to-cart" data-product-id="<%= @product.id %>" id="add-to-cart-btn">
-        <i class="fas fa-cart-plus"></i> Adicionar ao Carrinho
-      </button>
+      <!-- Botões -->
+      <div class="d-grid gap-2">
+        <a href="<%= cart_path %>" class="btn btn-primary">
+          <i class="fas fa-shopping-cart"></i> Ir para o carrinho
+        </a>
+        <button class="btn btn-lg btn-success w-100 add-to-cart" data-product-id="<%= @product.id %>" id="add-to-cart-btn">
+          <i class="fas fa-cart-plus"></i> Adicionar ao Carrinho
+        </button>
+      </div>
     </div>
   </div>
 </div>
+
+<%= link_to 'Voltar', root_path, class: 'back-button' %>
+
+<!-- Adicionando CSS -->
+<style>
+  .product-image {
+    max-height: 400px; /* Limita a altura da imagem */
+    object-fit: contain; /* Mantém a proporção sem distorcer */
+    width: 100%; /* Ajusta a largura da imagem */
+  }
+
+  /* Ajustes responsivos */
+  @media (max-width: 768px) {
+    .product-image {
+      max-height: 300px; /* Reduz a altura da imagem em telas menores */
+    }
+  }
+</style>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -74,5 +94,3 @@
     });
   });
 </script>
-
-<%= link_to 'Voltar', root_path, class: 'back-button' %>

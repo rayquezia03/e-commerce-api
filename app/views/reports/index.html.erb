@@ -3,7 +3,10 @@
     <h1 class="text-center mb-4">📊 Relatório de Pedidos</h1>
 
     <div class="d-flex justify-content-between mb-3">
-      <%= link_to '📥 Exportar Relatório', export_documents_path(format: :xlsx), class: 'btn btn-success' %>
+      <!-- Verifica se o usuário é admin -->
+      <% if current_user.is_admin? %>
+        <%= link_to '📥 Exportar Relatório', export_documents_path(format: :xlsx), class: 'btn btn-success' %>
+      <% end %>
       <%= link_to '🔙 Voltar', root_path, class: 'btn btn-secondary' %>
     </div>
 
