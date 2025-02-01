@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <title>E-commerce da Bluesoft</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  
+  <!-- Bootstrap CSS -->
+  <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' %>
+  
+  <!-- Ícones Font Awesome -->
+  <%= stylesheet_link_tag 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css' %>
+</head>
+
+<body>
+  <header class="bg-dark text-white py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+      <h1 class="h3">Bem-vindo ao E-commerce da Bluesoft</h1>
+      <nav class="d-flex align-items-center">
+        <%= form_with(url: products_path, method: :get, remote: true, class: "d-flex") do %>
+          <%= text_field_tag :search, params[:search], placeholder: "Buscar produtos...", class: "form-control me-2" %>
+          <%= button_tag type: 'submit', class: 'btn btn-light btn-sm' do %>
+            <i class="fas fa-search"></i> Buscar
+          <% end %>
+        <% end %>
+        <% if user_signed_in? %>
+          <a href="<%= cart_path %>" class="btn btn-primary">
+            <i class="fas fa-shopping-cart"></i> Carrinho
+          </a>
+        <% else %>
+          <a href="<%= root_path %>" class="btn btn-light">Home</a>
+        <% end %>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container mt-4">
+    <div id="products-container" data-page="1">
+      <% if @products.present? %>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <%= render partial: "products/product_card", collection: @products, as: :product %>
+        </div>
+      <% else %>
+        <p class="text-center text-muted">Não há produtos disponíveis no momento.</p>
+      <% end %>
+    </div>
+
+    <div id="loading" class="text-center my-4" style="display: none;">
+      <i class="fas fa-spinner fa-spin fa-2x"></i>
+      <p>Carregando mais produtos...</p>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js' %>
+
+  <!-- Scroll Infinito -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let currentPage = 1;
+      let isLoading = false;
+
+      function loadMoreProducts() {
+        if (isLoading) return;
+        isLoading = true;
+        document.getElementById("loading").style.display = "block";
+
+        currentPage++;
+        fetch(`/products?page=${currentPage}&search=${document.querySelector('input[name="search"]').value}`, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+          .then(response => response.text())
+          .then(html => {
+            if (html.trim() !== "") {
+              document.querySelector("#products-container .row").insertAdjacentHTML("beforeend", html);
+            } else {
+              observer.disconnect();
+            }
+          })
+          .finally(() => {
+            isLoading = false;
+            document.getElementById("loading").style.display = "none";
+          });
+      }
+
+      let observer = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          loadMoreProducts();
+        }
+      }, { threshold: 1.0 });
+
+      observer.observe(document.querySelector("#loading"));
+    });
+  </script>
+</body>
+</html>

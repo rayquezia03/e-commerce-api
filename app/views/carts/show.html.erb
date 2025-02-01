@@ -1,0 +1,97 @@
+<% total = 0 %> <!-- Inicializa a variável total -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 class="text-center mb-4 text-primary font-weight-bold">Carrinho de Compras</h2>
+      
+      <!-- Tabela do carrinho -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Produto</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Quantidade</th>
+                <th scope="col">Subtotal</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @cart.cart_items.each do |cart_item| %>
+                <% product = cart_item.product %> <!-- Obtém o produto relacionado -->
+                <tr>
+                  <td><%= product.name %></td>
+                  <td><%= number_to_currency(product.price) %></td>
+                  <td>
+                    <%= form_with model: cart_item, url: update_item_cart_path(cart_item), method: :patch, remote: true do |form| %>
+                      <div class="input-group">
+                        <%= form.number_field :quantity, 
+                              value: cart_item.quantity, 
+                              min: 1, 
+                              max: product.stock_quantity, 
+                              class: "form-control",
+                              data: { available_stock: product.stock_quantity } %>
+                        <span class="input-group-append">
+                          <%= form.submit "Atualizar", class: "btn btn-primary" %>
+                        </span>
+                      </div>
+                    <% end %>
+                  </td>
+                  <td><%= number_to_currency(product.price * cart_item.quantity) %></td>
+                  <td>
+                    <%= link_to "Remover", remove_item_cart_path(cart_item), method: :delete, class: "btn btn-danger btn-sm" %>
+                  </td>
+                </tr>
+                <% total += product.price * cart_item.quantity %> <!-- Calcula o total da compra -->
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Exibição do total -->
+      <div class="row justify-content-end mt-4">
+        <div class="col-auto">
+          <h4 class="font-weight-bold">Total: <%= number_to_currency(total) %></h4>
+        </div>
+      </div>
+
+      <!-- Ação de Finalizar Compra -->
+      <% if total > 0 %>
+        <div class="row justify-content-end mt-3">
+          <div class="col-auto">
+            <%= button_to 'Finalizar Compra', finalize_cart_cart_path(@cart), method: :post, class: 'btn btn-success btn-lg' %>
+          </div>
+        </div>
+      <% else %>
+        <div class="row justify-content-center mt-3">
+          <div class="col text-center text-danger">
+            <strong>O carrinho está vazio.</strong>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Botão para voltar -->
+      <div class="row justify-content-end mt-3">
+        <div class="col-auto">
+          <%= link_to 'Voltar', root_path, class: 'btn btn-secondary btn-lg' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll("input[type='number']").forEach(input => {
+      input.addEventListener("input", function() {
+        let maxStock = parseInt(this.dataset.availableStock);
+        if (this.value > maxStock) {
+          alert(`Estoque insuficiente! Apenas ${maxStock} unidades disponíveis.`);
+          this.value = maxStock; // Ajusta para o máximo permitido
+        }
+      });
+    });
+  });
+</script>

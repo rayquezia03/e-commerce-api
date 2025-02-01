@@ -1,0 +1,12 @@
+<!-- app/views/products/_product_card.html.erb -->
+<div class="col">
+  <div class="card shadow-sm h-100">
+    <a href="<%= product_path(product) %>" class="text-decoration-none text-dark">
+      <%= image_tag(product.image.presence || 'https://m.media-amazon.com/images/I/51pNvD-nsvL.__AC_SX300_SY300_QL70_ML2_.jpg', class: 'card-img-top', alt: product.name) %>
+      <div class="card-body text-center">
+        <h5 class="card-title"><%= product.name %></h5>
+        <p class="card-text text-success fw-bold"><%= number_to_currency(product.price) %></p>
+      </div>
+    </a>
+  </div>
+</div>

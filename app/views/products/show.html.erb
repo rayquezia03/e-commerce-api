@@ -1,0 +1,78 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- Imagem do Produto -->
+    <div class="col-md-6 mb-4 mb-md-0 position-relative">
+      <%= image_tag(@product.image.presence || 'https://m.media-amazon.com/images/I/51pNvD-nsvL.__AC_SX300_SY300_QL70_ML2_.jpg', class: 'img-fluid rounded shadow') %>
+      
+          <i class="fas fa-shopping-cart"></i> 
+        </a>
+    </div>
+
+    <!-- Informações do Produto -->
+    <div class="col-md-6">
+      <!-- Seção de Botões e Informações -->
+      <div class="d-flex justify-content-between mb-3">
+      </div>
+
+      <h1 class="h2 mb-3 text-primary"><%= @product.name %></h1>
+      <p class="text-success fw-bold display-6"><%= number_to_currency(@product.price) %></p>
+      <p class="text-muted mb-4"><%= @product.description %></p>
+
+      <!-- Seção de Quantidade -->
+      <div class="mb-4">
+        <label for="quantity" class="form-label">Quantidade:</label>
+        <input type="number" id="quantity" class="form-control" value="1" min="1" max="<%= @product.stock_quantity %>" required>
+        <small class="form-text text-muted">Estoque disponível: <%= @product.stock_quantity %> unidades</small>
+      </div>
+
+      <!-- Botão de Adicionar ao Carrinho -->
+      <a href="<%= cart_path %>" class="btn btn-primary">
+        <i class="fas fa-shopping-cart"></i> Ir para o carrinho
+      </a>
+      <button class="btn btn-lg btn-success w-100 add-to-cart" data-product-id="<%= @product.id %>" id="add-to-cart-btn">
+        <i class="fas fa-cart-plus"></i> Adicionar ao Carrinho
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const addToCartButton = document.querySelector("#add-to-cart-btn");
+    const quantityInput = document.querySelector("#quantity");
+
+    addToCartButton.addEventListener("click", function () {
+      const productId = this.getAttribute("data-product-id");
+      const quantity = quantityInput.value;
+
+      // Verifica se a quantidade é válida (não excede o estoque)
+      if (quantity > quantityInput.max) {
+        alert("Quantidade excede o estoque disponível!");
+        return;
+      }
+
+      fetch("<%= add_item_cart_path(current_user.carts || Cart.new) %>", {
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ product_id: productId, quantity: quantity })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert("Produto adicionado ao carrinho!");
+        } else {
+          alert("Erro ao adicionar ao carrinho: " + (data.errors || "Tente novamente!"));
+        }
+      })
+      .catch(error => {
+        console.error("Erro:", error);
+        alert("Erro ao adicionar ao carrinho. Verifique sua conexão!");
+      });
+    });
+  });
+</script>
+
+<%= link_to 'Voltar', root_path, class: 'back-button' %>

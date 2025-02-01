@@ -1,0 +1,13 @@
+<div class="upload-container">
+  <h2>Importar novos produtos</h2>
+
+  <%= form_with url: documents_path, local: true, html: { multipart: true } do |form| %>
+    <div class="form-group">
+      <%= form.label :file, "Escolha um arquivo Xlsx:", class: 'form-label' %>
+      <%= form.file_field :file, accept: '.xlsx', class: 'file-input' %>
+    </div>
+    <%= form.submit 'Processar Produtos', class: 'submit-button' %>
+  <% end %>
+</div>
+
+<%= link_to 'Voltar', root_path, class: 'back-button' %>

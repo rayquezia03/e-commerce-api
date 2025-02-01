@@ -1,0 +1,22 @@
+# views/documents/export.xlsx.axlsx
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Pedidos") do |sheet|
+  sheet.add_row ["ID do Pedido", "Nome do Usuário", "E-mail do Usuário", "Total", "Status", "Data da Compra", "Produto", "Quantidade", "Preço Unitário", "Preço Total"]
+
+  @report_data.each do |data|
+    data[:cart_items].each do |item|
+      sheet.add_row [
+        data[:order_id],
+        data[:user_name],
+        data[:user_email],
+        data[:total],
+        data[:status],
+        data[:created_at],
+        item[:product_name],
+        item[:quantity],
+        item[:unit_price],
+        item[:total_price]
+      ]
+    end
+  end
+end

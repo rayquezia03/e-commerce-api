@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>E-commerce Bluesoft</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ9w1UNVRIN_c6onbfau_bKlgXPHYwN8DYmA&s" type="image/png">
+  <%= javascript_pack_tag 'application', 'data-turbo-track': 'reload', defer: true %>
+
+</head>
+
+<body>
+  <header>
+    <h1>
+    </h1>
+    <nav class="main-nav">
+      <% if user_signed_in? %>
+        <ul class="nav-list">
+          <li><%= link_to 'Relatório', reports_path, class: 'nav-link' %></li>
+        </ul>
+        <ul class="user-nav">
+          <li><%= link_to 'Editar Perfil', edit_user_registration_path, class: 'nav-link edit-profile' %></li>
+          <li>
+            <%= form_with(url: destroy_user_session_path, method: :delete, local: true) do %>
+              <%= submit_tag 'Logout', class: 'logout-button' %>
+            <% end %>
+          </li>
+        </ul>
+      <% else %>
+        <ul class="nav-list">
+          <li><%= link_to 'Home', root_path, class: 'nav-link' %></li>
+        </ul>
+      <% end %>
+    </nav>
+  </header>
+
+  <div class="container">
+    <%= yield %>
+  </div>
+
+  <footer style="background-color: #778899; color: #00FFFF; text-align: center; padding: 10px 0;">
+    <p>"Seu produto favorito, a um clique de distância com a Bluesoft!" 🚀🛒 </p>
+    <%= link_to 'Sobre nós', about_me_path, class: 'footer-link' %>
+  </footer>
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+</body>
+</html>

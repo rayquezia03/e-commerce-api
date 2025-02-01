@@ -1,0 +1,19 @@
+<h1>Carrinho de </h1>
+
+<% if @cart_items.empty? %>
+  <p>Seu carrinho está vazio.</p>
+<% else %>
+  <ul>
+    <% @cart_items.each do |cart_item| %>
+      <li>
+        <%= cart_item.product.name %> - Quantidade: <%= cart_item.quantity %>
+        <%= button_to 'Remover', remove_from_cart_path(cart_item), method: :delete %>
+      </li>
+    <% end %>
+  </ul>
+  
+  <!-- Exibe o total -->
+  <p><strong>Total:</strong> R$ <%= @cart_items.sum { |item| item.product.price * item.quantity } %></p>
+
+  <%= button_to 'Finalizar ', finalize_cart_cart_path(@cart), method: :post, class: 'btn btn-success' %>
+<% end %>
