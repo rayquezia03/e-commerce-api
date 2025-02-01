@@ -1,4 +1,6 @@
 class Product < ApplicationRecord
+    acts_as_paranoid
+    
     has_one_attached :image
     include Rails.application.routes.url_helpers
 

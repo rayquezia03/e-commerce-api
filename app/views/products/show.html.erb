@@ -51,7 +51,7 @@
         return;
       }
 
-      fetch("<%= add_item_cart_path(current_user.carts || Cart.new) %>", {
+      fetch("<%= add_item_cart_cart_path(current_user.carts || Cart.new) %>", {
         method: "POST",
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,

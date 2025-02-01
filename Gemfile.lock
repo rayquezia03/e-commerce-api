@@ -143,6 +143,8 @@ GEM
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    paranoia (2.4.3)
+      activerecord (>= 4.0, < 6.2)
     pg (1.5.3)
     public_suffix (6.0.1)
     puma (5.6.8)
@@ -292,6 +294,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (~> 3.3)
   nokogiri
+  paranoia (~> 2.4)
   pg (>= 1.1, < 2.0)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)

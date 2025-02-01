@@ -40,7 +40,9 @@
                   </td>
                   <td><%= number_to_currency(product.price * cart_item.quantity) %></td>
                   <td>
-                    <%= link_to "Remover", remove_item_cart_path(cart_item), method: :delete, class: "btn btn-danger btn-sm" %>
+                  <%= form_with url: remove_item_cart_path(cart_item.id), method: :delete, data: { confirm: 'Tem certeza que deseja remover este item?' } do |form| %>
+                    <%= form.submit 'Remover', class: 'btn btn-danger' %>
+                  <% end %>
                   </td>
                 </tr>
                 <% total += product.price * cart_item.quantity %> <!-- Calcula o total da compra -->

@@ -42,7 +42,7 @@ class CartsController < ApplicationController
   end
 
   def remove_item
-    @cart_item = CartItem.find(params[:id])
+    @cart_item = CartItem.find(params[:format])
     @cart_item.destroy
     render json: { success: true }
   end
@@ -53,10 +53,8 @@ class CartsController < ApplicationController
     @order.calculate_total 
 
     @cart.cart_items.each do |cart_item|
-      p '----------------'
-      p cart_item
       product = cart_item.product
-      p product
+    
       new_quantity = product.stock_quantity - cart_item.quantity
       if new_quantity.negative?
         raise ActiveRecord::Rollback, "Estoque insuficiente para #{product.name}!"

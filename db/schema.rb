@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_01_31_234629) do
+ActiveRecord::Schema.define(version: 2025_02_01_121610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,9 @@ ActiveRecord::Schema.define(version: 2025_01_31_234629) do
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
+    t.datetime "deleted_at"
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["deleted_at"], name: "index_active_storage_attachments_on_deleted_at"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
@@ -34,13 +36,17 @@ ActiveRecord::Schema.define(version: 2025_01_31_234629) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_active_storage_blobs_on_deleted_at"
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
+    t.datetime "deleted_at"
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+    t.index ["deleted_at"], name: "index_active_storage_variant_records_on_deleted_at"
   end
 
   create_table "cart_items", force: :cascade do |t|
@@ -49,7 +55,9 @@ ActiveRecord::Schema.define(version: 2025_01_31_234629) do
     t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["deleted_at"], name: "index_cart_items_on_deleted_at"
     t.index ["product_id"], name: "index_cart_items_on_product_id"
   end
 
@@ -58,6 +66,8 @@ ActiveRecord::Schema.define(version: 2025_01_31_234629) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_carts_on_deleted_at"
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
@@ -98,11 +108,15 @@ ActiveRecord::Schema.define(version: 2025_01_31_234629) do
     t.string "document_name"
     t.string "file_xml"
     t.string "content_type"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_documents_on_deleted_at"
   end
 
   create_table "imports", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_imports_on_deleted_at"
   end
 
   create_table "operation_products", force: :cascade do |t|
@@ -116,6 +130,8 @@ ActiveRecord::Schema.define(version: 2025_01_31_234629) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "document_id"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_operation_products_on_deleted_at"
     t.index ["document_id"], name: "index_operation_products_on_document_id"
   end
 
@@ -126,7 +142,9 @@ ActiveRecord::Schema.define(version: 2025_01_31_234629) do
     t.string "status", default: "done"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
     t.index ["cart_id"], name: "index_orders_on_cart_id"
+    t.index ["deleted_at"], name: "index_orders_on_deleted_at"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -139,6 +157,8 @@ ActiveRecord::Schema.define(version: 2025_01_31_234629) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "section"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_products_on_deleted_at"
   end
 
   create_table "taxas", force: :cascade do |t|
@@ -149,6 +169,8 @@ ActiveRecord::Schema.define(version: 2025_01_31_234629) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "document_id"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_taxas_on_deleted_at"
     t.index ["document_id"], name: "index_taxas_on_document_id"
   end
 
@@ -163,6 +185,8 @@ ActiveRecord::Schema.define(version: 2025_01_31_234629) do
     t.string "name"
     t.string "address"
     t.string "phone"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
