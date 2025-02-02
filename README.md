@@ -2,7 +2,7 @@
 
 ## Descrição do Projeto
 
-Este projeto é uma API para um sistema de e-commerce com funcionalidades essenciais para o gerenciamento de produtos, usuários, e relatórios. Ele foi desenvolvido com a possibilidade de importar produtos, visualizar as vendas e gerenciar permissões de acesso de forma hierárquica, com visualização diferenciada para administradores e colaboradores.
+Este projeto foi desenvolvido com fluxo de compra online, visualização de relatório de vendas e permissões de acesso de forma hierárquica, com visualização diferenciada para administradores e colaboradores.
 
 ## Funcionalidades Implementadas
 
