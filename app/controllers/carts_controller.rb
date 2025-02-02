@@ -70,6 +70,7 @@ class CartsController < ApplicationController
 
       redirect_to order_path(@order), notice: "Compra realizada com sucesso!"
     else
+      puts @order.errors.full_messages
       redirect_to cart_path(@cart), alert: "Houve um erro ao finalizar a compra."
     end
   end

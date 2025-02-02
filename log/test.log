@@ -10115,3 +10115,107 @@ FOREIGN KEY ("user_id")
   [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
   [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
   [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."deleted_at" IS NULL LIMIT $2[0m  [["email", "test@example.com"], ["LIMIT", 1]]
+  [1m[36mUser Create (1.0ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at", "name") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["email", "test@example.com"], ["encrypted_password", "$2a$04$wEj7wt.Frynh7p5nryPzXODJwGqsddBUJj.u/Zg6VhgN6U2xfFSkC"], ["created_at", "2025-02-02 01:03:46.354945"], ["updated_at", "2025-02-02 01:03:46.354945"], ["name", "Test User"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (0.4ms)[0m  [1m[32mINSERT INTO "carts" ("user_id", "created_at", "updated_at", "status") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 95], ["created_at", "2025-02-02 01:03:46.362710"], ["updated_at", "2025-02-02 01:03:46.362710"], ["status", "active"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mProduct Create (0.4ms)[0m  [1m[32mINSERT INTO "products" ("name", "price", "stock_quantity", "created_at", "updated_at", "section") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "P1"], ["price", "100.0"], ["stock_quantity", 10], ["created_at", "2025-02-02 01:03:46.370447"], ["updated_at", "2025-02-02 01:03:46.370447"], ["section", "Categoria A"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCartItem Create (0.3ms)[0m  [1m[32mINSERT INTO "cart_items" ("cart_id", "product_id", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["cart_id", 96], ["product_id", 95], ["quantity", 1], ["created_at", "2025-02-02 01:03:46.376872"], ["updated_at", "2025-02-02 01:03:46.376872"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (0.5ms)[0m  [1m[32mINSERT INTO "orders" ("user_id", "cart_id", "total", "status", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["user_id", 95], ["cart_id", 96], ["total", "100.0"], ["status", "pending"], ["created_at", "2025-02-02 01:03:46.391918"], ["updated_at", "2025-02-02 01:03:46.391918"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/orders/17" for 127.0.0.1 at 2025-02-01 22:03:46 -0300
+Processing by OrdersController#show as HTML
+  Parameters: {"id"=>"17"}
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."deleted_at" IS NULL AND "orders"."id" = $1 LIMIT $2[0m  [["id", 17], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering orders/show.html.erb within layouts/application
+  [1m[36mCart Load (0.3ms)[0m  [1m[34mSELECT "carts".* FROM "carts" WHERE "carts"."deleted_at" IS NULL AND "carts"."id" = $1 LIMIT $2[0m  [["id", 96], ["LIMIT", 1]]
+  [1m[36mCartItem Load (0.2ms)[0m  [1m[34mSELECT "cart_items".* FROM "cart_items" WHERE "cart_items"."deleted_at" IS NULL AND "cart_items"."cart_id" = $1[0m  [["cart_id", 96]]
+  [1m[36mProduct Load (0.2ms)[0m  [1m[34mSELECT "products".* FROM "products" WHERE "products"."deleted_at" IS NULL AND "products"."id" = $1 LIMIT $2[0m  [["id", 95], ["LIMIT", 1]]
+  Rendered orders/show.html.erb within layouts/application (Duration: 6.8ms | Allocations: 5388)
+[Webpacker] Compiling...
+[Webpacker] Compilation failed:
+Hash: 9bd43c160c5f0d0a6e8a
+Version: webpack 4.47.0
+Time: 198ms
+Built at: 01/02/2025 22:03:47
+                                     Asset       Size       Chunks                         Chunk Names
+    js/application-8e14306a1d29430f2a32.js   8.91 KiB  application  [emitted] [immutable]  application
+js/application-8e14306a1d29430f2a32.js.map   3.53 KiB  application  [emitted] [dev]        application
+                             manifest.json  384 bytes               [emitted]              
+Entrypoint application = js/application-8e14306a1d29430f2a32.js js/application-8e14306a1d29430f2a32.js.map
+[./app/javascript/packs/application.js] 5.01 KiB {application} [built] [failed] [1 error]
+
+ERROR in ./app/javascript/packs/application.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+Error: Cannot find package '@babel/plugin-proposal-private-methods' imported from /home/rayane/a.teste/e-commerce/babel-virtual-resolve-base.js
+    at __node_internal_ (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:225:9)
+    at new NodeError (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:195:5)
+    at packageResolve (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:899:9)
+    at moduleResolve (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:939:18)
+    at defaultResolve (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:1017:15)
+    at resolve (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/vendor/import-meta-resolve.js:1030:12)
+    at tryImportMetaResolve (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/files/plugins.js:142:45)
+    at resolveStandardizedNameForImport (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/files/plugins.js:164:19)
+    at resolveStandardizedName (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/files/plugins.js:173:22)
+    at loadPlugin (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/files/plugins.js:52:20)
+    at loadPlugin.next (<anonymous>)
+    at createDescriptor (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/config-descriptors.js:140:16)
+    at createDescriptor.next (<anonymous>)
+    at step (/home/rayane/a.teste/e-commerce/node_modules/gensync/index.js:261:32)
+    at evaluateAsync (/home/rayane/a.teste/e-commerce/node_modules/gensync/index.js:291:5)
+    at /home/rayane/a.teste/e-commerce/node_modules/gensync/index.js:44:11
+    at Array.forEach (<anonymous>)
+    at Function.async (/home/rayane/a.teste/e-commerce/node_modules/gensync/index.js:43:15)
+    at Function.all (/home/rayane/a.teste/e-commerce/node_modules/gensync/index.js:216:13)
+    at Generator.next (<anonymous>)
+    at createDescriptors (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/config-descriptors.js:102:41)
+    at createDescriptors.next (<anonymous>)
+    at createPluginDescriptors (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/config-descriptors.js:99:17)
+    at createPluginDescriptors.next (<anonymous>)
+    at /home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/gensync-utils/functional.js:39:27
+    at Generator.next (<anonymous>)
+    at mergeChainOpts (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/config-chain.js:349:34)
+    at mergeChainOpts.next (<anonymous>)
+    at chainWalker (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/config-chain.js:316:14)
+    at chainWalker.next (<anonymous>)
+    at loadFileChain (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/config-chain.js:191:24)
+    at loadFileChain.next (<anonymous>)
+    at buildRootChain (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/config-chain.js:77:27)
+    at buildRootChain.next (<anonymous>)
+    at loadPrivatePartialConfig (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/partial.js:72:62)
+    at loadPrivatePartialConfig.next (<anonymous>)
+    at loadPartialConfig (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/partial.js:115:25)
+    at loadPartialConfig.next (<anonymous>)
+    at step (/home/rayane/a.teste/e-commerce/node_modules/gensync/index.js:269:25)
+    at evaluateAsync (/home/rayane/a.teste/e-commerce/node_modules/gensync/index.js:291:5)
+    at /home/rayane/a.teste/e-commerce/node_modules/gensync/index.js:93:9
+    at new Promise (<anonymous>)
+    at async (/home/rayane/a.teste/e-commerce/node_modules/gensync/index.js:92:14)
+    at stopHiding - secret - don't use this - v1 (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+    at loadPartialConfigAsync (/home/rayane/a.teste/e-commerce/node_modules/@babel/core/lib/config/index.js:34:85)
+    at Object.<anonymous> (/home/rayane/a.teste/e-commerce/node_modules/babel-loader/lib/index.js:126:26)
+    at Generator.next (<anonymous>)
+    at asyncGeneratorStep (/home/rayane/a.teste/e-commerce/node_modules/babel-loader/lib/index.js:3:103)
+    at _next (/home/rayane/a.teste/e-commerce/node_modules/babel-loader/lib/index.js:4:194)
+    at /home/rayane/a.teste/e-commerce/node_modules/babel-loader/lib/index.js:4:364
+    at new Promise (<anonymous>)
+    at Object.<anonymous> (/home/rayane/a.teste/e-commerce/node_modules/babel-loader/lib/index.js:4:97)
+    at Object._loader (/home/rayane/a.teste/e-commerce/node_modules/babel-loader/lib/index.js:210:18)
+    at Object.loader (/home/rayane/a.teste/e-commerce/node_modules/babel-loader/lib/index.js:48:18)
+    at Object.<anonymous> (/home/rayane/a.teste/e-commerce/node_modules/babel-loader/lib/index.js:44:12)
+
+  Rendered layout layouts/application.html.erb (Duration: 997.1ms | Allocations: 26102)
+Completed 200 OK in 1002ms (Views: 997.9ms | ActiveRecord: 1.2ms | Allocations: 30538)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
