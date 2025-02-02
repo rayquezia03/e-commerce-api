@@ -25,4 +25,4 @@ Para acessar, utilize o login abaixo com perfil de Admin:
 
 Alternativamente, você também pode criar um novo login.
 
-O servidor de hospedagem utilizado (Render) pode demorar um pouco para carregar pela primeira vez, após um período sem requisições, devido à limitação de recursos do plano gratuito.
+Obs.: O servidor de hospedagem utilizado (Render) pode levar um tempo para responder à primeira requisição após um período de inatividade. Isso ocorre porque os contêineres ficam inativos durante o tempo sem uso e precisam ser reativados (automaticamente) quando uma nova requisição é feita. Esse comportamento é uma limitação do plano gratuito, que restringe os recursos disponíveis.
